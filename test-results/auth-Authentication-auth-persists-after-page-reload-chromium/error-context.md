@@ -1,0 +1,261 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: auth.spec.ts >> Authentication >> auth persists after page reload
+- Location: tests\auth.spec.ts:55:7
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText('Dashboard')
+Expected: visible
+Error: strict mode violation: getByText('Dashboard') resolved to 2 elements:
+    1) <span class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors↵                text-white">…</span> aka getByRole('link', { name: 'grid_view Dashboard' })
+    2) <h1 class="text-base font-semibold text-on-surface">Dashboard</h1> aka getByRole('heading', { name: 'Dashboard' })
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByText('Dashboard')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e7]: hub
+        - generic [ref=e8]: SalesFlow
+      - navigation [ref=e9]:
+        - link "grid_view Dashboard" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e12]:
+            - generic [ref=e13]: grid_view
+            - text: Dashboard
+        - link "people Leads" [ref=e14] [cursor=pointer]:
+          - /url: /leads
+          - generic [ref=e15]:
+            - generic [ref=e16]: people
+            - text: Leads
+        - link "view_kanban Pipeline" [ref=e17] [cursor=pointer]:
+          - /url: /pipeline
+          - generic [ref=e18]:
+            - generic [ref=e19]: view_kanban
+            - text: Pipeline
+        - link "bar_chart Reports" [ref=e20] [cursor=pointer]:
+          - /url: /reports
+          - generic [ref=e21]:
+            - generic [ref=e22]: bar_chart
+            - text: Reports
+        - link "insights Analytics" [ref=e23] [cursor=pointer]:
+          - /url: /analytics
+          - generic [ref=e24]:
+            - generic [ref=e25]: insights
+            - text: Analytics
+        - link "upload_file Import" [ref=e26] [cursor=pointer]:
+          - /url: /import
+          - generic [ref=e27]:
+            - generic [ref=e28]: upload_file
+            - text: Import
+        - link "settings Settings" [ref=e29] [cursor=pointer]:
+          - /url: /settings
+          - generic [ref=e30]:
+            - generic [ref=e31]: settings
+            - text: Settings
+      - paragraph [ref=e33]: SalesFlow CRM · v1.0
+    - main [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - heading "Dashboard" [level=1] [ref=e37]
+          - generic [ref=e38]:
+            - link "add New Lead" [ref=e40] [cursor=pointer]:
+              - /url: /leads/new
+              - button "add New Lead" [ref=e41]:
+                - generic [ref=e42]: add
+                - text: New Lead
+            - button "AD" [ref=e44] [cursor=pointer]
+        - generic [ref=e45]:
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - generic [ref=e50]: people
+              - generic [ref=e51]:
+                - generic [ref=e52]: "13"
+                - generic [ref=e53]: Total Leads
+            - generic [ref=e54]:
+              - generic [ref=e56]: fiber_new
+              - generic [ref=e57]:
+                - generic [ref=e58]: "7"
+                - generic [ref=e59]: New
+            - generic [ref=e60]:
+              - generic [ref=e62]: mark_email_read
+              - generic [ref=e63]:
+                - generic [ref=e64]: "1"
+                - generic [ref=e65]: Contacted
+            - generic [ref=e66]:
+              - generic [ref=e68]: verified
+              - generic [ref=e69]:
+                - generic [ref=e70]: "1"
+                - generic [ref=e71]: Qualified
+            - generic [ref=e72]:
+              - generic [ref=e74]: emoji_events
+              - generic [ref=e75]:
+                - generic [ref=e76]: "3"
+                - generic [ref=e77]: Won
+            - generic [ref=e78]:
+              - generic [ref=e80]: cancel
+              - generic [ref=e81]:
+                - generic [ref=e82]: "1"
+                - generic [ref=e83]: Lost
+            - generic [ref=e84]:
+              - generic [ref=e86]: paid
+              - generic [ref=e87]:
+                - generic [ref=e88]: $278K
+                - generic [ref=e89]: Total Pipeline Value
+            - generic [ref=e90]:
+              - generic [ref=e92]: savings
+              - generic [ref=e93]:
+                - generic [ref=e94]: $161K
+                - generic [ref=e95]: Won Deal Value
+          - generic [ref=e96]:
+            - heading "Leads Created — Last 6 Months" [level=2] [ref=e97]
+            - generic [ref=e99]:
+              - img [ref=e100]:
+                - generic [ref=e104]:
+                  - generic [ref=e106]: Dec
+                  - generic [ref=e108]: Jan
+                  - generic [ref=e110]: Feb
+                  - generic [ref=e112]: Mar
+                  - generic [ref=e114]: Apr
+                  - generic [ref=e116]: May
+                - generic [ref=e118]:
+                  - generic [ref=e120]: "0"
+                  - generic [ref=e122]: "2"
+                  - generic [ref=e124]: "4"
+                  - generic [ref=e126]: "6"
+                  - generic [ref=e128]: "8"
+              - generic:
+                - generic:
+                  - paragraph: Jan
+                  - list:
+                    - listitem: "leads : 0"
+          - generic [ref=e139]:
+            - link "list View all leads 13 total" [ref=e140] [cursor=pointer]:
+              - /url: /leads
+              - generic [ref=e142]: list
+              - generic [ref=e143]:
+                - generic [ref=e144]: View all leads
+                - generic [ref=e145]: 13 total
+            - link "view_kanban Pipeline board Drag to update status" [ref=e146] [cursor=pointer]:
+              - /url: /pipeline
+              - generic [ref=e148]: view_kanban
+              - generic [ref=e149]:
+                - generic [ref=e150]: Pipeline board
+                - generic [ref=e151]: Drag to update status
+            - link "bar_chart Reports Deal value & activity" [ref=e152] [cursor=pointer]:
+              - /url: /reports
+              - generic [ref=e154]: bar_chart
+              - generic [ref=e155]:
+                - generic [ref=e156]: Reports
+                - generic [ref=e157]: Deal value & activity
+  - generic [ref=e158]: "0"
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test'
+  2  | 
+  3  | // Auth tests use empty storage — no saved login
+  4  | test.use({ storageState: { cookies: [], origins: [] } })
+  5  | 
+  6  | test.describe('Authentication', () => {
+  7  | 
+  8  |   test('redirects unauthenticated users from /dashboard to /login', async ({ page }) => {
+  9  |     await page.goto('/dashboard')
+  10 |     await expect(page).toHaveURL(/\/login/)
+  11 |   })
+  12 | 
+  13 |   test('redirects unauthenticated users from /leads to /login', async ({ page }) => {
+  14 |     await page.goto('/leads')
+  15 |     await expect(page).toHaveURL(/\/login/)
+  16 |   })
+  17 | 
+  18 |   test('login page renders email, password inputs and sign-in button', async ({ page }) => {
+  19 |     await page.goto('/login')
+  20 |     await expect(page.locator('input[type="email"]')).toBeVisible()
+  21 |     await expect(page.locator('input[type="password"]')).toBeVisible()
+  22 |     await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  23 |   })
+  24 | 
+  25 |   test('shows the SalesFlow CRM brand heading', async ({ page }) => {
+  26 |     await page.goto('/login')
+  27 |     await expect(page.getByText('SalesFlow CRM')).toBeVisible()
+  28 |   })
+  29 | 
+  30 |   test('shows error message with wrong credentials', async ({ page }) => {
+  31 |     await page.goto('/login')
+  32 |     await page.locator('input[type="email"]').fill('wrong@example.com')
+  33 |     await page.locator('input[type="password"]').fill('badpassword')
+  34 |     await page.getByRole('button', { name: 'Sign in' }).click()
+  35 |     // Error banner is a red div inside the form
+  36 |     await expect(page.locator('form .text-red-700')).toBeVisible()
+  37 |   })
+  38 | 
+  39 |   test('shows error with correct email but wrong password', async ({ page }) => {
+  40 |     await page.goto('/login')
+  41 |     await page.locator('input[type="email"]').fill('admin@example.com')
+  42 |     await page.locator('input[type="password"]').fill('wrongpassword')
+  43 |     await page.getByRole('button', { name: 'Sign in' }).click()
+  44 |     await expect(page.locator('form .text-red-700')).toBeVisible()
+  45 |   })
+  46 | 
+  47 |   test('logs in successfully and redirects to /dashboard', async ({ page }) => {
+  48 |     await page.goto('/login')
+  49 |     await page.locator('input[type="email"]').fill('admin@example.com')
+  50 |     await page.locator('input[type="password"]').fill('password123')
+  51 |     await page.getByRole('button', { name: 'Sign in' }).click()
+  52 |     await expect(page).toHaveURL(/\/dashboard/, { timeout: 10_000 })
+  53 |   })
+  54 | 
+  55 |   test('auth persists after page reload', async ({ page }) => {
+  56 |     await page.goto('/login')
+  57 |     await page.locator('input[type="email"]').fill('admin@example.com')
+  58 |     await page.locator('input[type="password"]').fill('password123')
+  59 |     await page.getByRole('button', { name: 'Sign in' }).click()
+  60 |     await expect(page).toHaveURL(/\/dashboard/)
+  61 |     await page.reload()
+  62 |     await expect(page).toHaveURL(/\/dashboard/)
+> 63 |     await expect(page.getByText('Dashboard')).toBeVisible()
+     |                                               ^ Error: expect(locator).toBeVisible() failed
+  64 |   })
+  65 | 
+  66 |   test('logout from profile dropdown clears auth and redirects to /login', async ({ page }) => {
+  67 |     await page.goto('/login')
+  68 |     await page.locator('input[type="email"]').fill('admin@example.com')
+  69 |     await page.locator('input[type="password"]').fill('password123')
+  70 |     await page.getByRole('button', { name: 'Sign in' }).click()
+  71 |     await expect(page).toHaveURL(/\/dashboard/)
+  72 | 
+  73 |     // Open the profile dropdown (avatar button in top-right of TopNav)
+  74 |     const avatar = page.locator('header button').filter({ hasText: /^[A-Z]+$/ })
+  75 |     await avatar.click()
+  76 |     await page.getByRole('button', { name: /sign out/i }).click()
+  77 | 
+  78 |     await expect(page).toHaveURL(/\/login/, { timeout: 8_000 })
+  79 |     // Token should be cleared
+  80 |     const token = await page.evaluate(() => localStorage.getItem('crm_token'))
+  81 |     expect(token).toBeNull()
+  82 |   })
+  83 | 
+  84 | })
+  85 | 
+```
