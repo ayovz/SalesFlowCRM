@@ -1,0 +1,4 @@
+name,company,email,phone,source,salesperson,status,deal value
+Import Lead One,Acme Corp,one@acme.com,555-1111,Website,Alex Chen,New,10000
+Import Lead Two,Beta Inc,two@beta.com,555-2222,Referral,Sarah Kim,Contacted,20000
+Import Lead Three,Gamma Ltd,three@gamma.com,555-3333,LinkedIn,James Park,Qualified,30000
