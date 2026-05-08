@@ -27,7 +27,7 @@ test.describe('Lead Detail', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto(`/leads/${leadId}`)
-    await page.waitForSelector('h2.text-lg.font-bold', { timeout: 8_000 })
+    await expect(page.locator('h2.text-lg.font-bold')).toBeVisible({ timeout: 8_000 })
   })
 
   // ── Info card ─────────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ test.describe('Lead Detail', () => {
   })
 
   test('shows the company name', async ({ page }) => {
-    await expect(page.getByText('Detail Corp')).toBeVisible()
+    await expect(page.getByText('Detail Corp').first()).toBeVisible()
   })
 
   test('shows all info field labels', async ({ page }) => {
@@ -60,7 +60,7 @@ test.describe('Lead Detail', () => {
   })
 
   test('shows the current status badge', async ({ page }) => {
-    await expect(page.getByText('Contacted')).toBeVisible()
+    await expect(page.locator('span.rounded-full', { hasText: 'Contacted' }).first()).toBeVisible()
   })
 
   test('"Edit" button navigates to the edit page', async ({ page }) => {

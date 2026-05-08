@@ -4,8 +4,9 @@ test.describe('Analytics & Insights', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/analytics')
-    // Wait for summary stat cards to load
+    // Wait for stat cards to be present in DOM, then allow Framer Motion to finish
     await page.waitForSelector('text=Total Leads', { timeout: 10_000 })
+    await page.waitForTimeout(800)
   })
 
   test('shows "Analytics" as the page title', async ({ page }) => {
@@ -15,7 +16,7 @@ test.describe('Analytics & Insights', () => {
   test('renders all 4 summary stat cards', async ({ page }) => {
     const labels = ['Total Leads', 'Won Deals', 'Conversion Rate', 'Avg Won Value']
     for (const label of labels) {
-      await expect(page.getByText(label)).toBeVisible()
+      await expect(page.getByText(label).first()).toBeVisible()
     }
   })
 
@@ -29,9 +30,11 @@ test.describe('Analytics & Insights', () => {
   })
 
   test('renders the "Lead Volume Trend" chart card', async ({ page }) => {
-    await expect(page.getByText('Lead Volume Trend')).toBeVisible()
+    await expect(page.getByText('Lead Volume Trend')).toBeVisible({ timeout: 5_000 })
+    // Wait for Recharts to mount its SVG
     const chart = page.locator('.recharts-responsive-container').first()
-    await expect(chart.locator('svg')).toBeVisible()
+    await expect(chart).toBeVisible({ timeout: 5_000 })
+    await expect(chart.locator('svg')).toBeVisible({ timeout: 5_000 })
   })
 
   test('renders the "Conversion Funnel" card with all 6 stages', async ({ page }) => {
@@ -46,31 +49,32 @@ test.describe('Analytics & Insights', () => {
   })
 
   test('renders the "Salesperson Performance" card', async ({ page }) => {
-    await expect(page.getByText('Salesperson Performance')).toBeVisible()
+    await expect(page.getByText('Salesperson Performance').first()).toBeVisible()
   })
 
   test('renders the "Recent Activity" table', async ({ page }) => {
-    await expect(page.getByText('Recent Activity')).toBeVisible()
-    // Table headers
-    for (const h of ['Action', 'Lead', 'Details', 'By', 'When']) {
-      await expect(page.getByText(h)).toBeVisible()
+    const activityCard = page.locator('.glass-card').filter({ hasText: 'Recent Activity' }).last()
+    await expect(activityCard).toBeVisible()
+    // Check table headers scoped to this section
+    for (const h of ['Action', 'Details', 'By', 'When']) {
+      await expect(activityCard.locator('th', { hasText: h })).toBeVisible()
     }
+    await expect(activityCard.locator('th', { hasText: 'Lead' }).first()).toBeVisible()
   })
 
   test('period filter — switching to "Last 7 days" reloads data', async ({ page }) => {
     const select = page.locator('select').filter({ hasText: 'Last 30 days' })
     await select.selectOption('7')
-    // Loading spinner or updated data — just verify no error shown
     await page.waitForTimeout(1_000)
     await expect(page.locator('.text-red-700')).not.toBeVisible()
-    await expect(page.getByText('Total Leads')).toBeVisible()
+    await expect(page.getByText('Total Leads').first()).toBeVisible()
   })
 
   test('source filter narrows displayed data', async ({ page }) => {
     await page.locator('select').filter({ hasText: 'All Sources' }).selectOption('Website')
     await page.waitForTimeout(800)
     await expect(page.locator('.text-red-700')).not.toBeVisible()
-    await expect(page.getByText('Total Leads')).toBeVisible()
+    await expect(page.getByText('Total Leads').first()).toBeVisible()
   })
 
   test('salesperson filter narrows displayed data', async ({ page }) => {
@@ -82,16 +86,18 @@ test.describe('Analytics & Insights', () => {
   test('"Refresh" button reloads the insights data', async ({ page }) => {
     await page.getByRole('button', { name: /refresh/i }).click()
     await page.waitForTimeout(500)
-    await expect(page.getByText('Total Leads')).toBeVisible()
+    await expect(page.getByText('Total Leads').first()).toBeVisible()
     await expect(page.locator('.text-red-700')).not.toBeVisible()
   })
 
   test('"CSV" download button is visible in the header', async ({ page }) => {
-    await expect(page.getByRole('button', { name: /^csv$/i })).toBeVisible()
+    // Button accessible name includes the material icon text: "download CSV"
+    await expect(page.getByRole('button', { name: /csv/i }).first()).toBeVisible()
   })
 
   test('"PDF" download button is visible in the header', async ({ page }) => {
-    await expect(page.getByRole('button', { name: /^pdf$/i })).toBeVisible()
+    // Button accessible name includes the material icon text: "picture_as_pdf PDF"
+    await expect(page.getByRole('button', { name: /pdf/i }).first()).toBeVisible()
   })
 
   test('SVG download button on Lead Volume Trend chart is visible', async ({ page }) => {
@@ -100,17 +106,21 @@ test.describe('Analytics & Insights', () => {
   })
 
   test('"CSV" activity-log download returns a CSV file', async ({ page }) => {
+    const csvBtn = page.getByRole('button', { name: /csv/i }).first()
+    await expect(csvBtn).toBeEnabled()
     const [download] = await Promise.all([
       page.waitForEvent('download'),
-      page.getByRole('button', { name: /^csv$/i }).click(),
+      csvBtn.click(),
     ])
     expect(download.suggestedFilename()).toMatch(/\.csv$/)
   })
 
   test('"PDF" export triggers a download', async ({ page }) => {
+    const pdfBtn = page.getByRole('button', { name: /pdf/i }).first()
+    await expect(pdfBtn).toBeEnabled()
     const [download] = await Promise.all([
       page.waitForEvent('download', { timeout: 30_000 }),
-      page.getByRole('button', { name: /^pdf$/i }).click(),
+      pdfBtn.click(),
     ])
     expect(download.suggestedFilename()).toMatch(/\.pdf$/)
   })

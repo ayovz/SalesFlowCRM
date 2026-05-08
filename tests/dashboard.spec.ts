@@ -6,6 +6,8 @@ test.describe('Dashboard', () => {
     await page.goto('/dashboard')
     // Wait for stat cards to be populated (loading state replaced by real data)
     await page.waitForSelector('text=Total Leads', { timeout: 8_000 })
+    // Allow Framer Motion animations to complete
+    await page.waitForTimeout(700)
   })
 
   test('shows "Dashboard" as the page title', async ({ page }) => {
@@ -24,7 +26,7 @@ test.describe('Dashboard', () => {
       'Won Deal Value',
     ]
     for (const label of labels) {
-      await expect(page.getByText(label)).toBeVisible()
+      await expect(page.getByText(label).first()).toBeVisible()
     }
   })
 
@@ -59,7 +61,8 @@ test.describe('Dashboard', () => {
   test('renders three quick-link cards', async ({ page }) => {
     await expect(page.getByText('View all leads')).toBeVisible()
     await expect(page.getByText('Pipeline board')).toBeVisible()
-    await expect(page.getByText('Reports')).toBeVisible()
+    // Use subtitle text unique to the Reports quick-link card
+    await expect(page.getByText('Deal value & activity').first()).toBeVisible()
   })
 
   test('"New Lead" button in header navigates to /leads/new', async ({ page }) => {

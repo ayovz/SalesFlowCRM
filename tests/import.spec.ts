@@ -61,6 +61,7 @@ test.describe('Lead Import', () => {
   test('uploading a valid CSV transitions to the preview step', async ({ page }) => {
     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
     await expect(page.getByText('Rows detected')).toBeVisible({ timeout: 5_000 })
+    await page.waitForTimeout(500)
     await expect(page.getByText('Will import')).toBeVisible()
   })
 
@@ -75,9 +76,11 @@ test.describe('Lead Import', () => {
   test('preview table shows all expected columns', async ({ page }) => {
     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+    await page.waitForTimeout(500)
 
+    const table = page.locator('table').first()
     for (const col of ['Name', 'Company', 'Email', 'Source', 'Rep', 'Status', 'Value']) {
-      await expect(page.getByText(col)).toBeVisible()
+      await expect(table.locator('th', { hasText: col })).toBeVisible()
     }
   })
 

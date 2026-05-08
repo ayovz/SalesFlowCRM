@@ -29,8 +29,9 @@ test.describe('Reports', () => {
   })
 
   test('salesperson table has expected column headers', async ({ page }) => {
+    const table = page.locator('table').first()
     for (const header of ['Salesperson', 'Leads', 'Won', 'Win Rate', 'Won Value']) {
-      await expect(page.getByText(header)).toBeVisible()
+      await expect(table.locator('th', { hasText: header })).toBeVisible()
     }
   })
 

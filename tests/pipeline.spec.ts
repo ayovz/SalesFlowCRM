@@ -38,18 +38,17 @@ test.describe('Pipeline (Kanban)', () => {
   })
 
   test('"Won" column contains seed leads Alice Johnson and Grace Kim', async ({ page }) => {
-    // Find the Won column — it's the parent .glass-card that contains the "Won" badge in its header
-    const wonBadge  = page.locator('.bg-surface-container span.rounded-full', { hasText: /^Won$/ })
-    const wonColumn = wonBadge.locator('xpath=ancestor::div[contains(@class,"glass-card")]').first()
-
+    const wonColumn = page.locator('.glass-card').filter({
+      has: page.locator('.bg-surface-container span.rounded-full', { hasText: /^Won$/ }),
+    })
     await expect(wonColumn.getByText('Alice Johnson')).toBeVisible()
     await expect(wonColumn.getByText('Grace Kim')).toBeVisible()
   })
 
   test('"New" column contains seed leads David Lee and Henry Park', async ({ page }) => {
-    const newBadge  = page.locator('.bg-surface-container span.rounded-full', { hasText: /^New$/ })
-    const newColumn = newBadge.locator('xpath=ancestor::div[contains(@class,"glass-card")]').first()
-
+    const newColumn = page.locator('.glass-card').filter({
+      has: page.locator('.bg-surface-container span.rounded-full', { hasText: /^New$/ }),
+    })
     await expect(newColumn.getByText('David Lee')).toBeVisible()
     await expect(newColumn.getByText('Henry Park')).toBeVisible()
   })
@@ -79,9 +78,10 @@ test.describe('Pipeline (Kanban)', () => {
     const dragSource = leadLink.locator('xpath=ancestor::div[@draggable="true"]').first()
 
     // Target: the "Qualified" column drop zone
-    const qualifiedBadge  = page.locator('.bg-surface-container span.rounded-full', { hasText: /^Qualified$/ })
-    const qualifiedColumn = qualifiedBadge.locator('xpath=ancestor::div[contains(@class,"glass-card")]').first()
-    const dropZone        = qualifiedColumn.locator('div.flex.flex-col.gap-2.p-3')
+    const qualifiedColumn = page.locator('.glass-card').filter({
+      has: page.locator('.bg-surface-container span.rounded-full', { hasText: /^Qualified$/ }),
+    })
+    const dropZone = qualifiedColumn.locator('div.flex.flex-col.gap-2.p-3')
 
     await dragSource.dragTo(dropZone)
     await page.waitForTimeout(800)

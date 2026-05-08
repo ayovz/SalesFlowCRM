@@ -59,8 +59,9 @@ test.describe('Authentication', () => {
     await page.getByRole('button', { name: 'Sign in' }).click()
     await expect(page).toHaveURL(/\/dashboard/)
     await page.reload()
+    await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/\/dashboard/)
-    await expect(page.getByText('Dashboard')).toBeVisible()
+    await expect(page.locator('header h1')).toHaveText('Dashboard')
   })
 
   test('logout from profile dropdown clears auth and redirects to /login', async ({ page }) => {
