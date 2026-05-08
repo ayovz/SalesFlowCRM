@@ -14,16 +14,16 @@
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: locator('.recharts-responsive-container').first().locator('svg')
+Locator: locator('.glass-card').filter({ hasText: 'Lead Volume Trend' }).locator('.recharts-responsive-container').locator('svg')
 Expected: visible
-Error: strict mode violation: locator('.recharts-responsive-container').first().locator('svg') resolved to 3 elements:
+Error: strict mode violation: locator('.glass-card').filter({ hasText: 'Lead Volume Trend' }).locator('.recharts-responsive-container').locator('svg') resolved to 3 elements:
     1) <svg width="536" height="210" viewBox="0 0 536 210" class="recharts-surface">…</svg> aka getByText('/94/154/214/275/302468')
     2) <svg width="8" height="8" viewBox="0 0 32 32" class="recharts-surface">…</svg> aka getByRole('listitem').filter({ hasText: 'Actual' }).getByRole('img')
     3) <svg width="8" height="8" viewBox="0 0 32 32" class="recharts-surface">…</svg> aka getByRole('listitem').filter({ hasText: 'Trend' }).getByRole('img')
 
 Call log:
-  - Expect "toBeVisible" with timeout 5000ms
-  - waiting for locator('.recharts-responsive-container').first().locator('svg')
+  - Expect "toBeVisible" with timeout 8000ms
+  - waiting for locator('.glass-card').filter({ hasText: 'Lead Volume Trend' }).locator('.recharts-responsive-container').locator('svg')
 
 ```
 
@@ -271,7 +271,7 @@ Call log:
                   - columnheader "By" [ref=e271]
                   - columnheader "When" [ref=e272]
               - rowgroup [ref=e273]:
-                - row "add_circle Lead Created Alex Chen Lead imported from XLSX admin@example.com 8h ago" [ref=e274]:
+                - row "add_circle Lead Created Alex Chen Lead imported from XLSX admin@example.com 10h ago" [ref=e274]:
                   - cell "add_circle Lead Created" [ref=e275]:
                     - generic [ref=e276]:
                       - generic [ref=e278]: add_circle
@@ -279,8 +279,8 @@ Call log:
                   - cell "Alex Chen" [ref=e280]
                   - cell "Lead imported from XLSX" [ref=e281]
                   - cell "admin@example.com" [ref=e282]
-                  - cell "8h ago" [ref=e283]
-                - row "add_circle Lead Created Sarah Kim Lead imported from XLSX admin@example.com 8h ago" [ref=e284]:
+                  - cell "10h ago" [ref=e283]
+                - row "add_circle Lead Created Sarah Kim Lead imported from XLSX admin@example.com 10h ago" [ref=e284]:
                   - cell "add_circle Lead Created" [ref=e285]:
                     - generic [ref=e286]:
                       - generic [ref=e288]: add_circle
@@ -288,8 +288,8 @@ Call log:
                   - cell "Sarah Kim" [ref=e290]
                   - cell "Lead imported from XLSX" [ref=e291]
                   - cell "admin@example.com" [ref=e292]
-                  - cell "8h ago" [ref=e293]
-                - row "add_circle Lead Created James Park Lead imported from XLSX admin@example.com 8h ago" [ref=e294]:
+                  - cell "10h ago" [ref=e293]
+                - row "add_circle Lead Created James Park Lead imported from XLSX admin@example.com 10h ago" [ref=e294]:
                   - cell "add_circle Lead Created" [ref=e295]:
                     - generic [ref=e296]:
                       - generic [ref=e298]: add_circle
@@ -297,8 +297,8 @@ Call log:
                   - cell "James Park" [ref=e300]
                   - cell "Lead imported from XLSX" [ref=e301]
                   - cell "admin@example.com" [ref=e302]
-                  - cell "8h ago" [ref=e303]
-                - row "add_circle Lead Created Maria Lopez Lead imported from XLSX admin@example.com 8h ago" [ref=e304]:
+                  - cell "10h ago" [ref=e303]
+                - row "add_circle Lead Created Maria Lopez Lead imported from XLSX admin@example.com 10h ago" [ref=e304]:
                   - cell "add_circle Lead Created" [ref=e305]:
                     - generic [ref=e306]:
                       - generic [ref=e308]: add_circle
@@ -306,8 +306,8 @@ Call log:
                   - cell "Maria Lopez" [ref=e310]
                   - cell "Lead imported from XLSX" [ref=e311]
                   - cell "admin@example.com" [ref=e312]
-                  - cell "8h ago" [ref=e313]
-                - row "add_circle Lead Created David Osei Lead imported from XLSX admin@example.com 8h ago" [ref=e314]:
+                  - cell "10h ago" [ref=e313]
+                - row "add_circle Lead Created David Osei Lead imported from XLSX admin@example.com 10h ago" [ref=e314]:
                   - cell "add_circle Lead Created" [ref=e315]:
                     - generic [ref=e316]:
                       - generic [ref=e318]: add_circle
@@ -315,8 +315,8 @@ Call log:
                   - cell "David Osei" [ref=e320]
                   - cell "Lead imported from XLSX" [ref=e321]
                   - cell "admin@example.com" [ref=e322]
-                  - cell "8h ago" [ref=e323]
-                - row "swap_horiz Status Changed David Lee Status changed from Contacted to Won admin@example.com 17h ago" [ref=e324]:
+                  - cell "10h ago" [ref=e323]
+                - row "swap_horiz Status Changed David Lee Status changed from Contacted to Won admin@example.com 19h ago" [ref=e324]:
                   - cell "swap_horiz Status Changed" [ref=e325]:
                     - generic [ref=e326]:
                       - generic [ref=e328]: swap_horiz
@@ -324,8 +324,8 @@ Call log:
                   - cell "David Lee" [ref=e330]
                   - cell "Status changed from Contacted to Won" [ref=e331]
                   - cell "admin@example.com" [ref=e332]
-                  - cell "17h ago" [ref=e333]
-                - row "swap_horiz Status Changed Eva Martinez Status changed from Proposal Sent to Qualified admin@example.com 17h ago" [ref=e334]:
+                  - cell "19h ago" [ref=e333]
+                - row "swap_horiz Status Changed Eva Martinez Status changed from Proposal Sent to Qualified admin@example.com 19h ago" [ref=e334]:
                   - cell "swap_horiz Status Changed" [ref=e335]:
                     - generic [ref=e336]:
                       - generic [ref=e338]: swap_horiz
@@ -333,8 +333,8 @@ Call log:
                   - cell "Eva Martinez" [ref=e340]
                   - cell "Status changed from Proposal Sent to Qualified" [ref=e341]
                   - cell "admin@example.com" [ref=e342]
-                  - cell "17h ago" [ref=e343]
-                - row "swap_horiz Status Changed Bob Smith Status changed from Qualified to New admin@example.com 17h ago" [ref=e344]:
+                  - cell "19h ago" [ref=e343]
+                - row "swap_horiz Status Changed Bob Smith Status changed from Qualified to New admin@example.com 19h ago" [ref=e344]:
                   - cell "swap_horiz Status Changed" [ref=e345]:
                     - generic [ref=e346]:
                       - generic [ref=e348]: swap_horiz
@@ -342,8 +342,8 @@ Call log:
                   - cell "Bob Smith" [ref=e350]
                   - cell "Status changed from Qualified to New" [ref=e351]
                   - cell "admin@example.com" [ref=e352]
-                  - cell "17h ago" [ref=e353]
-                - row "swap_horiz Status Changed David Lee Status changed from New to Contacted admin@example.com 17h ago" [ref=e354]:
+                  - cell "19h ago" [ref=e353]
+                - row "swap_horiz Status Changed David Lee Status changed from New to Contacted admin@example.com 19h ago" [ref=e354]:
                   - cell "swap_horiz Status Changed" [ref=e355]:
                     - generic [ref=e356]:
                       - generic [ref=e358]: swap_horiz
@@ -351,7 +351,7 @@ Call log:
                   - cell "David Lee" [ref=e360]
                   - cell "Status changed from New to Contacted" [ref=e361]
                   - cell "admin@example.com" [ref=e362]
-                  - cell "17h ago" [ref=e363]
+                  - cell "19h ago" [ref=e363]
   - generic [ref=e364]: Website
 ```
 
@@ -390,102 +390,104 @@ Call log:
   30  |   })
   31  | 
   32  |   test('renders the "Lead Volume Trend" chart card', async ({ page }) => {
-  33  |     await expect(page.getByText('Lead Volume Trend')).toBeVisible({ timeout: 5_000 })
-  34  |     // Wait for Recharts to mount its SVG
-  35  |     const chart = page.locator('.recharts-responsive-container').first()
-  36  |     await expect(chart).toBeVisible({ timeout: 5_000 })
-> 37  |     await expect(chart.locator('svg')).toBeVisible({ timeout: 5_000 })
+  33  |     // Scope to the specific card to avoid multi-element match from ancestor elements
+  34  |     const trendCard = page.locator('.glass-card').filter({ hasText: 'Lead Volume Trend' })
+  35  |     await expect(trendCard).toBeVisible({ timeout: 8_000 })
+  36  |     // Wait for Recharts to mount its SVG inside this card
+  37  |     const chart = trendCard.locator('.recharts-responsive-container')
+  38  |     await expect(chart).toBeVisible({ timeout: 8_000 })
+> 39  |     await expect(chart.locator('svg')).toBeVisible({ timeout: 8_000 })
       |                                        ^ Error: expect(locator).toBeVisible() failed
-  38  |   })
-  39  | 
-  40  |   test('renders the "Conversion Funnel" card with all 6 stages', async ({ page }) => {
-  41  |     await expect(page.getByText('Conversion Funnel')).toBeVisible()
-  42  |     for (const stage of ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost']) {
-  43  |       await expect(page.getByText(stage).first()).toBeVisible()
-  44  |     }
-  45  |   })
-  46  | 
-  47  |   test('renders the "Win Rate by Source" chart card', async ({ page }) => {
-  48  |     await expect(page.getByText('Win Rate by Source')).toBeVisible()
-  49  |   })
-  50  | 
-  51  |   test('renders the "Salesperson Performance" card', async ({ page }) => {
-  52  |     await expect(page.getByText('Salesperson Performance').first()).toBeVisible()
-  53  |   })
-  54  | 
-  55  |   test('renders the "Recent Activity" table', async ({ page }) => {
-  56  |     const activityCard = page.locator('.glass-card').filter({ hasText: 'Recent Activity' }).last()
-  57  |     await expect(activityCard).toBeVisible()
-  58  |     // Check table headers scoped to this section
-  59  |     for (const h of ['Action', 'Details', 'By', 'When']) {
-  60  |       await expect(activityCard.locator('th', { hasText: h })).toBeVisible()
-  61  |     }
-  62  |     await expect(activityCard.locator('th', { hasText: 'Lead' }).first()).toBeVisible()
-  63  |   })
-  64  | 
-  65  |   test('period filter — switching to "Last 7 days" reloads data', async ({ page }) => {
-  66  |     const select = page.locator('select').filter({ hasText: 'Last 30 days' })
-  67  |     await select.selectOption('7')
-  68  |     await page.waitForTimeout(1_000)
-  69  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
-  70  |     await expect(page.getByText('Total Leads').first()).toBeVisible()
-  71  |   })
-  72  | 
-  73  |   test('source filter narrows displayed data', async ({ page }) => {
-  74  |     await page.locator('select').filter({ hasText: 'All Sources' }).selectOption('Website')
-  75  |     await page.waitForTimeout(800)
-  76  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
-  77  |     await expect(page.getByText('Total Leads').first()).toBeVisible()
-  78  |   })
-  79  | 
-  80  |   test('salesperson filter narrows displayed data', async ({ page }) => {
-  81  |     await page.locator('select').filter({ hasText: 'All Reps' }).selectOption('Alex Chen')
-  82  |     await page.waitForTimeout(800)
-  83  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
-  84  |   })
-  85  | 
-  86  |   test('"Refresh" button reloads the insights data', async ({ page }) => {
-  87  |     await page.getByRole('button', { name: /refresh/i }).click()
-  88  |     await page.waitForTimeout(500)
-  89  |     await expect(page.getByText('Total Leads').first()).toBeVisible()
-  90  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
-  91  |   })
-  92  | 
-  93  |   test('"CSV" download button is visible in the header', async ({ page }) => {
-  94  |     // Button accessible name includes the material icon text: "download CSV"
-  95  |     await expect(page.getByRole('button', { name: /csv/i }).first()).toBeVisible()
-  96  |   })
-  97  | 
-  98  |   test('"PDF" download button is visible in the header', async ({ page }) => {
-  99  |     // Button accessible name includes the material icon text: "picture_as_pdf PDF"
-  100 |     await expect(page.getByRole('button', { name: /pdf/i }).first()).toBeVisible()
-  101 |   })
-  102 | 
-  103 |   test('SVG download button on Lead Volume Trend chart is visible', async ({ page }) => {
-  104 |     const trendCard = page.locator('.glass-card').filter({ hasText: 'Lead Volume Trend' })
-  105 |     await expect(trendCard.getByText('SVG')).toBeVisible()
-  106 |   })
-  107 | 
-  108 |   test('"CSV" activity-log download returns a CSV file', async ({ page }) => {
-  109 |     const csvBtn = page.getByRole('button', { name: /csv/i }).first()
-  110 |     await expect(csvBtn).toBeEnabled()
-  111 |     const [download] = await Promise.all([
-  112 |       page.waitForEvent('download'),
-  113 |       csvBtn.click(),
-  114 |     ])
-  115 |     expect(download.suggestedFilename()).toMatch(/\.csv$/)
-  116 |   })
-  117 | 
-  118 |   test('"PDF" export triggers a download', async ({ page }) => {
-  119 |     const pdfBtn = page.getByRole('button', { name: /pdf/i }).first()
-  120 |     await expect(pdfBtn).toBeEnabled()
-  121 |     const [download] = await Promise.all([
-  122 |       page.waitForEvent('download', { timeout: 30_000 }),
-  123 |       pdfBtn.click(),
-  124 |     ])
-  125 |     expect(download.suggestedFilename()).toMatch(/\.pdf$/)
-  126 |   })
-  127 | 
-  128 | })
+  40  |   })
+  41  | 
+  42  |   test('renders the "Conversion Funnel" card with all 6 stages', async ({ page }) => {
+  43  |     await expect(page.getByText('Conversion Funnel')).toBeVisible()
+  44  |     for (const stage of ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost']) {
+  45  |       await expect(page.getByText(stage).first()).toBeVisible()
+  46  |     }
+  47  |   })
+  48  | 
+  49  |   test('renders the "Win Rate by Source" chart card', async ({ page }) => {
+  50  |     await expect(page.getByText('Win Rate by Source')).toBeVisible()
+  51  |   })
+  52  | 
+  53  |   test('renders the "Salesperson Performance" card', async ({ page }) => {
+  54  |     await expect(page.getByText('Salesperson Performance').first()).toBeVisible()
+  55  |   })
+  56  | 
+  57  |   test('renders the "Recent Activity" table', async ({ page }) => {
+  58  |     const activityCard = page.locator('.glass-card').filter({ hasText: 'Recent Activity' }).last()
+  59  |     await expect(activityCard).toBeVisible()
+  60  |     // Check table headers scoped to this section
+  61  |     for (const h of ['Action', 'Details', 'By', 'When']) {
+  62  |       await expect(activityCard.locator('th', { hasText: h })).toBeVisible()
+  63  |     }
+  64  |     await expect(activityCard.locator('th', { hasText: 'Lead' }).first()).toBeVisible()
+  65  |   })
+  66  | 
+  67  |   test('period filter — switching to "Last 7 days" reloads data', async ({ page }) => {
+  68  |     const select = page.locator('select').filter({ hasText: 'Last 30 days' })
+  69  |     await select.selectOption('7')
+  70  |     await page.waitForTimeout(1_000)
+  71  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
+  72  |     await expect(page.getByText('Total Leads').first()).toBeVisible()
+  73  |   })
+  74  | 
+  75  |   test('source filter narrows displayed data', async ({ page }) => {
+  76  |     await page.locator('select').filter({ hasText: 'All Sources' }).selectOption('Website')
+  77  |     await page.waitForTimeout(800)
+  78  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
+  79  |     await expect(page.getByText('Total Leads').first()).toBeVisible()
+  80  |   })
+  81  | 
+  82  |   test('salesperson filter narrows displayed data', async ({ page }) => {
+  83  |     await page.locator('select').filter({ hasText: 'All Reps' }).selectOption('Alex Chen')
+  84  |     await page.waitForTimeout(800)
+  85  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
+  86  |   })
+  87  | 
+  88  |   test('"Refresh" button reloads the insights data', async ({ page }) => {
+  89  |     await page.getByRole('button', { name: /refresh/i }).click()
+  90  |     await page.waitForTimeout(500)
+  91  |     await expect(page.getByText('Total Leads').first()).toBeVisible()
+  92  |     await expect(page.locator('.text-red-700')).not.toBeVisible()
+  93  |   })
+  94  | 
+  95  |   test('"CSV" download button is visible in the header', async ({ page }) => {
+  96  |     // Button accessible name includes the material icon text: "download CSV"
+  97  |     await expect(page.getByRole('button', { name: /csv/i }).first()).toBeVisible()
+  98  |   })
+  99  | 
+  100 |   test('"PDF" download button is visible in the header', async ({ page }) => {
+  101 |     // Button accessible name includes the material icon text: "picture_as_pdf PDF"
+  102 |     await expect(page.getByRole('button', { name: /pdf/i }).first()).toBeVisible()
+  103 |   })
+  104 | 
+  105 |   test('SVG download button on Lead Volume Trend chart is visible', async ({ page }) => {
+  106 |     const trendCard = page.locator('.glass-card').filter({ hasText: 'Lead Volume Trend' })
+  107 |     await expect(trendCard.getByText('SVG')).toBeVisible()
+  108 |   })
+  109 | 
+  110 |   test('"CSV" activity-log download returns a CSV file', async ({ page }) => {
+  111 |     const csvBtn = page.getByRole('button', { name: /csv/i }).first()
+  112 |     await expect(csvBtn).toBeEnabled()
+  113 |     const [download] = await Promise.all([
+  114 |       page.waitForEvent('download'),
+  115 |       csvBtn.click(),
+  116 |     ])
+  117 |     expect(download.suggestedFilename()).toMatch(/\.csv$/)
+  118 |   })
+  119 | 
+  120 |   test('"PDF" export triggers a download', async ({ page }) => {
+  121 |     const pdfBtn = page.getByRole('button', { name: /pdf/i }).first()
+  122 |     await expect(pdfBtn).toBeEnabled()
+  123 |     const [download] = await Promise.all([
+  124 |       page.waitForEvent('download', { timeout: 30_000 }),
+  125 |       pdfBtn.click(),
+  126 |     ])
+  127 |     expect(download.suggestedFilename()).toMatch(/\.pdf$/)
+  128 |   })
   129 | 
+  130 | })
+  131 | 
 ```

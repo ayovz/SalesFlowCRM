@@ -14,8 +14,9 @@ test.describe('Leads — list, search, filters', () => {
 
   test('shows the table with all expected column headers', async ({ page }) => {
     const headers = ['Name / Company', 'Status', 'Source', 'Salesperson', 'Deal Value']
+    const thead = page.locator('thead')
     for (const h of headers) {
-      await expect(page.getByText(h)).toBeVisible()
+      await expect(thead.locator('th', { hasText: h })).toBeVisible()
     }
   })
 
@@ -152,7 +153,7 @@ test.describe('Leads — create and delete', () => {
     await page.getByPlaceholder('Company name').fill('E2E Corp')
     await page.getByPlaceholder('email@example.com').fill('e2e@test.com')
     await page.getByPlaceholder('555-0100').fill('555-0001')
-    await page.getByPlaceholder('0').fill('12000')
+    await page.getByPlaceholder('0', { exact: true }).fill('12000')
     await page.locator('select').filter({ hasText: 'Select source' }).selectOption('LinkedIn')
     await page.locator('select').filter({ hasText: 'Assign salesperson' }).selectOption('Sarah Kim')
 
@@ -178,7 +179,7 @@ test.describe('Leads — create and delete', () => {
     await page.getByPlaceholder('Full name').fill('Test')
     await page.getByPlaceholder('email@example.com').fill('not-an-email')
     await page.getByRole('button', { name: 'Create lead' }).click()
-    await expect(page.getByText('Invalid email')).toBeVisible()
+    await expect(page.getByText('Invalid email', { exact: true })).toBeVisible()
   })
 
   test('deletes a lead via the list delete button', async ({ page, request }) => {

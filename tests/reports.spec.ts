@@ -31,7 +31,8 @@ test.describe('Reports', () => {
   test('salesperson table has expected column headers', async ({ page }) => {
     const table = page.locator('table').first()
     for (const header of ['Salesperson', 'Leads', 'Won', 'Win Rate', 'Won Value']) {
-      await expect(table.locator('th', { hasText: header })).toBeVisible()
+      // Use exact text match so "Won" does not also match "Won Value"
+      await expect(table.locator('th').getByText(header, { exact: true })).toBeVisible()
     }
   })
 

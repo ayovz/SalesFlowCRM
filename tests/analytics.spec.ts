@@ -30,11 +30,13 @@ test.describe('Analytics & Insights', () => {
   })
 
   test('renders the "Lead Volume Trend" chart card', async ({ page }) => {
-    await expect(page.getByText('Lead Volume Trend')).toBeVisible({ timeout: 5_000 })
-    // Wait for Recharts to mount its SVG
-    const chart = page.locator('.recharts-responsive-container').first()
-    await expect(chart).toBeVisible({ timeout: 5_000 })
-    await expect(chart.locator('svg')).toBeVisible({ timeout: 5_000 })
+    // Scope to the specific card to avoid multi-element match from ancestor elements
+    const trendCard = page.locator('.glass-card').filter({ hasText: 'Lead Volume Trend' })
+    await expect(trendCard).toBeVisible({ timeout: 8_000 })
+    // Wait for Recharts to mount its SVG inside this card
+    const chart = trendCard.locator('.recharts-responsive-container')
+    await expect(chart).toBeVisible({ timeout: 8_000 })
+    await expect(chart.locator('svg')).toBeVisible({ timeout: 8_000 })
   })
 
   test('renders the "Conversion Funnel" card with all 6 stages', async ({ page }) => {

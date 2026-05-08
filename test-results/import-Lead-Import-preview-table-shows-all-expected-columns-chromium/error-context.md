@@ -7,7 +7,7 @@
 # Test info
 
 - Name: import.spec.ts >> Lead Import >> preview table shows all expected columns
-- Location: tests\import.spec.ts:76:7
+- Location: tests\import.spec.ts:75:7
 
 # Error details
 
@@ -159,177 +159,176 @@ Call log:
   9   |   test.beforeEach(async ({ page }) => {
   10  |     await page.goto('/import')
   11  |     await expect(page.locator('header h1')).toHaveText('Import Leads')
-  12  |   })
-  13  | 
-  14  |   // ── Upload step ───────────────────────────────────────────────────────────
+  12  |     // Allow Framer Motion upload-step animation to complete
+  13  |     await page.waitForTimeout(500)
+  14  |   })
   15  | 
-  16  |   test('shows the upload step by default', async ({ page }) => {
-  17  |     await expect(page.getByText('Drop your file here or click to browse')).toBeVisible()
-  18  |   })
-  19  | 
-  20  |   test('shows step indicator with Upload, Preview, Done labels', async ({ page }) => {
-  21  |     await expect(page.getByText('Upload')).toBeVisible()
-  22  |     await expect(page.getByText('Preview')).toBeVisible()
-  23  |     await expect(page.getByText('Done')).toBeVisible()
-  24  |   })
-  25  | 
-  26  |   test('shows supported file type hint', async ({ page }) => {
-  27  |     await expect(page.getByText(/xlsx.*xls.*csv/i)).toBeVisible()
-  28  |   })
-  29  | 
-  30  |   test('shows the Recognized Column Names guide', async ({ page }) => {
-  31  |     await expect(page.getByText('Recognized Column Names')).toBeVisible()
-  32  |     await expect(page.getByText('Lead Name *')).toBeVisible()
-  33  |     await expect(page.getByText('Company')).toBeVisible()
-  34  |     await expect(page.getByText('Email')).toBeVisible()
-  35  |     await expect(page.getByText('Phone')).toBeVisible()
-  36  |     await expect(page.getByText('Lead Source')).toBeVisible()
-  37  |     await expect(page.getByText('Salesperson')).toBeVisible()
-  38  |     await expect(page.getByText('Status')).toBeVisible()
-  39  |     await expect(page.getByText('Deal Value')).toBeVisible()
-  40  |   })
-  41  | 
-  42  |   test('file input accepts xlsx, xls, and csv extensions', async ({ page }) => {
-  43  |     const accept = await page.locator('input[type="file"]').getAttribute('accept')
-  44  |     expect(accept).toContain('.xlsx')
-  45  |     expect(accept).toContain('.xls')
-  46  |     expect(accept).toContain('.csv')
-  47  |   })
-  48  | 
-  49  |   test('shows an error for an unsupported file type', async ({ page }) => {
-  50  |     const fileInput = page.locator('input[type="file"]')
-  51  |     await fileInput.setInputFiles({
-  52  |       name: 'document.pdf',
-  53  |       mimeType: 'application/pdf',
-  54  |       buffer: Buffer.from('fake pdf content'),
-  55  |     })
-  56  |     await expect(page.getByText(/unsupported file type/i)).toBeVisible()
-  57  |   })
-  58  | 
-  59  |   // ── Preview step ──────────────────────────────────────────────────────────
-  60  | 
-  61  |   test('uploading a valid CSV transitions to the preview step', async ({ page }) => {
-  62  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  63  |     await expect(page.getByText('Rows detected')).toBeVisible({ timeout: 5_000 })
-  64  |     await page.waitForTimeout(500)
-  65  |     await expect(page.getByText('Will import')).toBeVisible()
-  66  |   })
-  67  | 
-  68  |   test('preview shows the correct detected row count for the sample CSV', async ({ page }) => {
-  69  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  70  |     await expect(page.getByText('Rows detected')).toBeVisible({ timeout: 5_000 })
-  71  |     // Sample CSV has 3 data rows
-  72  |     const detected = page.locator('div').filter({ hasText: /^3$/ }).first()
-  73  |     await expect(detected).toBeVisible()
-  74  |   })
-  75  | 
-  76  |   test('preview table shows all expected columns', async ({ page }) => {
-  77  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  78  |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  79  |     await page.waitForTimeout(500)
-  80  | 
-  81  |     const table = page.locator('table').first()
-  82  |     for (const col of ['Name', 'Company', 'Email', 'Source', 'Rep', 'Status', 'Value']) {
-> 83  |       await expect(table.locator('th', { hasText: col })).toBeVisible()
+  16  |   // ── Upload step ───────────────────────────────────────────────────────────
+  17  | 
+  18  |   test('shows the upload step by default', async ({ page }) => {
+  19  |     await expect(page.getByText('Drop your file here or click to browse')).toBeVisible()
+  20  |   })
+  21  | 
+  22  |   test('shows step indicator with Upload, Preview, Done labels', async ({ page }) => {
+  23  |     // Use exact: true so the locator matches only the specific label span, not its ancestors
+  24  |     await expect(page.getByText('Upload', { exact: true })).toBeVisible()
+  25  |     await expect(page.getByText('Preview', { exact: true })).toBeVisible()
+  26  |     await expect(page.getByText('Done', { exact: true })).toBeVisible()
+  27  |   })
+  28  | 
+  29  |   test('shows supported file type hint', async ({ page }) => {
+  30  |     await expect(page.getByText(/xlsx.*xls.*csv/i)).toBeVisible()
+  31  |   })
+  32  | 
+  33  |   test('shows the Recognized Column Names guide', async ({ page }) => {
+  34  |     // Use element-specific locators to avoid multi-element matches from ancestor elements
+  35  |     await expect(page.locator('h3', { hasText: 'Recognized Column Names' })).toBeVisible()
+  36  |     for (const field of ['Lead Name *', 'Company', 'Email', 'Phone', 'Lead Source', 'Salesperson', 'Status', 'Deal Value']) {
+  37  |       await expect(page.locator('p.text-xs.font-semibold', { hasText: field })).toBeVisible()
+  38  |     }
+  39  |   })
+  40  | 
+  41  |   test('file input accepts xlsx, xls, and csv extensions', async ({ page }) => {
+  42  |     const accept = await page.locator('input[type="file"]').getAttribute('accept')
+  43  |     expect(accept).toContain('.xlsx')
+  44  |     expect(accept).toContain('.xls')
+  45  |     expect(accept).toContain('.csv')
+  46  |   })
+  47  | 
+  48  |   test('shows an error for an unsupported file type', async ({ page }) => {
+  49  |     const fileInput = page.locator('input[type="file"]')
+  50  |     await fileInput.setInputFiles({
+  51  |       name: 'document.pdf',
+  52  |       mimeType: 'application/pdf',
+  53  |       buffer: Buffer.from('fake pdf content'),
+  54  |     })
+  55  |     await expect(page.getByText(/unsupported file type/i)).toBeVisible()
+  56  |   })
+  57  | 
+  58  |   // ── Preview step ──────────────────────────────────────────────────────────
+  59  | 
+  60  |   test('uploading a valid CSV transitions to the preview step', async ({ page }) => {
+  61  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  62  |     await expect(page.getByText('Rows detected')).toBeVisible({ timeout: 5_000 })
+  63  |     await page.waitForTimeout(500)
+  64  |     await expect(page.getByText('Will import')).toBeVisible()
+  65  |   })
+  66  | 
+  67  |   test('preview shows the correct detected row count for the sample CSV', async ({ page }) => {
+  68  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  69  |     await expect(page.getByText('Rows detected')).toBeVisible({ timeout: 5_000 })
+  70  |     // Sample CSV has 3 data rows
+  71  |     const detected = page.locator('div').filter({ hasText: /^3$/ }).first()
+  72  |     await expect(detected).toBeVisible()
+  73  |   })
+  74  | 
+  75  |   test('preview table shows all expected columns', async ({ page }) => {
+  76  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  77  |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  78  |     await page.waitForTimeout(500)
+  79  | 
+  80  |     const table = page.locator('table').first()
+  81  |     for (const col of ['Name', 'Company', 'Email', 'Source', 'Rep', 'Status', 'Value']) {
+> 82  |       await expect(table.locator('th', { hasText: col })).toBeVisible()
       |                                                           ^ Error: expect(locator).toBeVisible() failed
-  84  |     }
-  85  |   })
-  86  | 
-  87  |   test('preview table lists the lead names from the CSV', async ({ page }) => {
-  88  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  89  |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  90  | 
-  91  |     await expect(page.getByText('Import Lead One')).toBeVisible()
-  92  |     await expect(page.getByText('Import Lead Two')).toBeVisible()
-  93  |     await expect(page.getByText('Import Lead Three')).toBeVisible()
-  94  |   })
-  95  | 
-  96  |   test('valid rows show a "Ready" status badge in the preview', async ({ page }) => {
-  97  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  98  |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  99  | 
-  100 |     const readyBadges = page.locator('span', { hasText: 'Ready' })
-  101 |     await expect(readyBadges.first()).toBeVisible()
-  102 |     expect(await readyBadges.count()).toBe(3)
-  103 |   })
-  104 | 
-  105 |   test('"Change file" button goes back to the upload step', async ({ page }) => {
-  106 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  107 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  108 | 
-  109 |     await page.getByRole('button', { name: 'Change file' }).click()
-  110 |     await expect(page.getByText('Drop your file here or click to browse')).toBeVisible()
-  111 |   })
-  112 | 
-  113 |   // ── Import step ───────────────────────────────────────────────────────────
-  114 | 
-  115 |   test('clicking "Import" POSTs to /api/leads/bulk and shows the done step', async ({ page, request }) => {
-  116 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  117 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  118 | 
-  119 |     // Intercept the bulk API call to verify it's made correctly
-  120 |     let bulkCalled = false
-  121 |     await page.route('**/api/leads/bulk', (route) => {
-  122 |       bulkCalled = true
-  123 |       route.continue()
-  124 |     })
-  125 | 
-  126 |     await page.getByRole('button', { name: /import/i }).click()
-  127 |     await expect(page.getByText(/leads imported/i)).toBeVisible({ timeout: 10_000 })
-  128 |     expect(bulkCalled).toBe(true)
-  129 | 
-  130 |     // Cleanup — delete the 3 imported leads
-  131 |     const token = await getToken(request)
-  132 |     const res   = await request.get('http://localhost:3001/api/leads', {
-  133 |       headers: { Authorization: `Bearer ${token}` },
-  134 |     })
-  135 |     const leads = (await res.json()) as Array<{ id: number; lead_name: string }>
-  136 |     const imported = leads.filter(l =>
-  137 |       ['Import Lead One', 'Import Lead Two', 'Import Lead Three'].includes(l.lead_name),
-  138 |     )
-  139 |     for (const l of imported) {
-  140 |       await apiCall(request, 'DELETE', `/api/leads/${l.id}`, token)
-  141 |     }
-  142 |   })
-  143 | 
-  144 |   test('"View Leads" button on the done step navigates to /leads', async ({ page, request }) => {
-  145 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  146 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  147 |     await page.getByRole('button', { name: /import/i }).click()
-  148 |     await expect(page.getByText(/leads imported/i)).toBeVisible({ timeout: 10_000 })
-  149 | 
-  150 |     await page.getByRole('button', { name: 'View Leads' }).click()
-  151 |     await expect(page).toHaveURL(/\/leads/)
-  152 | 
-  153 |     // Cleanup
-  154 |     const token = await getToken(request)
-  155 |     const res   = await request.get('http://localhost:3001/api/leads', {
-  156 |       headers: { Authorization: `Bearer ${token}` },
-  157 |     })
-  158 |     const leads = (await res.json()) as Array<{ id: number; lead_name: string }>
-  159 |     const imported = leads.filter(l =>
-  160 |       ['Import Lead One', 'Import Lead Two', 'Import Lead Three'].includes(l.lead_name),
-  161 |     )
-  162 |     for (const l of imported) {
-  163 |       await apiCall(request, 'DELETE', `/api/leads/${l.id}`, token)
-  164 |     }
-  165 |   })
-  166 | 
-  167 |   test('"Import more" button on the done step resets to upload step', async ({ page, request }) => {
-  168 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
-  169 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
-  170 |     await page.getByRole('button', { name: /import/i }).click()
-  171 |     await expect(page.getByText(/leads imported/i)).toBeVisible({ timeout: 10_000 })
-  172 | 
-  173 |     await page.getByRole('button', { name: 'Import more' }).click()
-  174 |     await expect(page.getByText('Drop your file here or click to browse')).toBeVisible()
-  175 | 
-  176 |     // Cleanup
-  177 |     const token = await getToken(request)
-  178 |     const res   = await request.get('http://localhost:3001/api/leads', {
-  179 |       headers: { Authorization: `Bearer ${token}` },
-  180 |     })
-  181 |     const leads = (await res.json()) as Array<{ id: number; lead_name: string }>
-  182 |     const imported = leads.filter(l =>
-  183 |       ['Import Lead One', 'Import Lead Two', 'Import Lead Three'].includes(l.lead_name),
+  83  |     }
+  84  |   })
+  85  | 
+  86  |   test('preview table lists the lead names from the CSV', async ({ page }) => {
+  87  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  88  |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  89  | 
+  90  |     await expect(page.getByText('Import Lead One')).toBeVisible()
+  91  |     await expect(page.getByText('Import Lead Two')).toBeVisible()
+  92  |     await expect(page.getByText('Import Lead Three')).toBeVisible()
+  93  |   })
+  94  | 
+  95  |   test('valid rows show a "Ready" status badge in the preview', async ({ page }) => {
+  96  |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  97  |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  98  | 
+  99  |     const readyBadges = page.locator('span', { hasText: 'Ready' })
+  100 |     await expect(readyBadges.first()).toBeVisible()
+  101 |     expect(await readyBadges.count()).toBe(3)
+  102 |   })
+  103 | 
+  104 |   test('"Change file" button goes back to the upload step', async ({ page }) => {
+  105 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  106 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  107 | 
+  108 |     await page.getByRole('button', { name: 'Change file' }).click()
+  109 |     await expect(page.getByText('Drop your file here or click to browse')).toBeVisible()
+  110 |   })
+  111 | 
+  112 |   // ── Import step ───────────────────────────────────────────────────────────
+  113 | 
+  114 |   test('clicking "Import" POSTs to /api/leads/bulk and shows the done step', async ({ page, request }) => {
+  115 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  116 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  117 | 
+  118 |     // Intercept the bulk API call to verify it's made correctly
+  119 |     let bulkCalled = false
+  120 |     await page.route('**/api/leads/bulk', (route) => {
+  121 |       bulkCalled = true
+  122 |       route.continue()
+  123 |     })
+  124 | 
+  125 |     await page.getByRole('button', { name: /import/i }).click()
+  126 |     await expect(page.getByText(/leads imported/i)).toBeVisible({ timeout: 10_000 })
+  127 |     expect(bulkCalled).toBe(true)
+  128 | 
+  129 |     // Cleanup — delete the 3 imported leads
+  130 |     const token = await getToken(request)
+  131 |     const res   = await request.get('http://localhost:3001/api/leads', {
+  132 |       headers: { Authorization: `Bearer ${token}` },
+  133 |     })
+  134 |     const leads = (await res.json()) as Array<{ id: number; lead_name: string }>
+  135 |     const imported = leads.filter(l =>
+  136 |       ['Import Lead One', 'Import Lead Two', 'Import Lead Three'].includes(l.lead_name),
+  137 |     )
+  138 |     for (const l of imported) {
+  139 |       await apiCall(request, 'DELETE', `/api/leads/${l.id}`, token)
+  140 |     }
+  141 |   })
+  142 | 
+  143 |   test('"View Leads" button on the done step navigates to /leads', async ({ page, request }) => {
+  144 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  145 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  146 |     await page.getByRole('button', { name: /import/i }).click()
+  147 |     await expect(page.getByText(/leads imported/i)).toBeVisible({ timeout: 10_000 })
+  148 | 
+  149 |     await page.getByRole('button', { name: 'View Leads' }).click()
+  150 |     await expect(page).toHaveURL(/\/leads/)
+  151 | 
+  152 |     // Cleanup
+  153 |     const token = await getToken(request)
+  154 |     const res   = await request.get('http://localhost:3001/api/leads', {
+  155 |       headers: { Authorization: `Bearer ${token}` },
+  156 |     })
+  157 |     const leads = (await res.json()) as Array<{ id: number; lead_name: string }>
+  158 |     const imported = leads.filter(l =>
+  159 |       ['Import Lead One', 'Import Lead Two', 'Import Lead Three'].includes(l.lead_name),
+  160 |     )
+  161 |     for (const l of imported) {
+  162 |       await apiCall(request, 'DELETE', `/api/leads/${l.id}`, token)
+  163 |     }
+  164 |   })
+  165 | 
+  166 |   test('"Import more" button on the done step resets to upload step', async ({ page, request }) => {
+  167 |     await page.locator('input[type="file"]').setInputFiles(SAMPLE_CSV)
+  168 |     await page.waitForSelector('text=Rows detected', { timeout: 5_000 })
+  169 |     await page.getByRole('button', { name: /import/i }).click()
+  170 |     await expect(page.getByText(/leads imported/i)).toBeVisible({ timeout: 10_000 })
+  171 | 
+  172 |     await page.getByRole('button', { name: 'Import more' }).click()
+  173 |     await expect(page.getByText('Drop your file here or click to browse')).toBeVisible()
+  174 | 
+  175 |     // Cleanup
+  176 |     const token = await getToken(request)
+  177 |     const res   = await request.get('http://localhost:3001/api/leads', {
+  178 |       headers: { Authorization: `Bearer ${token}` },
+  179 |     })
+  180 |     const leads = (await res.json()) as Array<{ id: number; lead_name: string }>
+  181 |     const imported = leads.filter(l =>
+  182 |       ['Import Lead One', 'Import Lead Two', 'Import Lead Three'].includes(l.lead_name),
 ```

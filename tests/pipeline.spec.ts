@@ -41,16 +41,17 @@ test.describe('Pipeline (Kanban)', () => {
     const wonColumn = page.locator('.glass-card').filter({
       has: page.locator('.bg-surface-container span.rounded-full', { hasText: /^Won$/ }),
     })
-    await expect(wonColumn.getByText('Alice Johnson')).toBeVisible()
-    await expect(wonColumn.getByText('Grace Kim')).toBeVisible()
+    // Use locator('p') to get the name <p> element specifically, avoiding multi-match from ancestor divs
+    await expect(wonColumn.locator('p', { hasText: 'Alice Johnson' })).toBeVisible()
+    await expect(wonColumn.locator('p', { hasText: 'Grace Kim' })).toBeVisible()
   })
 
   test('"New" column contains seed leads David Lee and Henry Park', async ({ page }) => {
     const newColumn = page.locator('.glass-card').filter({
       has: page.locator('.bg-surface-container span.rounded-full', { hasText: /^New$/ }),
     })
-    await expect(newColumn.getByText('David Lee')).toBeVisible()
-    await expect(newColumn.getByText('Henry Park')).toBeVisible()
+    await expect(newColumn.locator('p', { hasText: 'David Lee' })).toBeVisible()
+    await expect(newColumn.locator('p', { hasText: 'Henry Park' })).toBeVisible()
   })
 
   test('lead cards link to their detail pages', async ({ page }) => {

@@ -28,6 +28,8 @@ test.describe('Lead Detail', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`/leads/${leadId}`)
     await expect(page.locator('h2.text-lg.font-bold')).toBeVisible({ timeout: 8_000 })
+    // Allow the notes card animation (delay: 0.1s) to finish
+    await page.waitForTimeout(300)
   })
 
   // ── Info card ─────────────────────────────────────────────────────────────
@@ -71,10 +73,10 @@ test.describe('Lead Detail', () => {
   // ── Status update ─────────────────────────────────────────────────────────
 
   test('changing the status dropdown updates the status in the UI', async ({ page, request }) => {
-    const statusSelect = page.locator('select')
+    const statusSelect = page.locator('select').first()
     await statusSelect.selectOption('Qualified')
-    // Wait for PATCH to complete; badge updates
-    await expect(page.locator('span.rounded-full', { hasText: 'Qualified' })).toBeVisible({ timeout: 6_000 })
+    // Wait for PATCH to complete; badge in the info card updates
+    await expect(page.locator('.glass-card span.rounded-full').filter({ hasText: /^Qualified$/ })).toBeVisible({ timeout: 8_000 })
 
     // Reset status for future tests
     const token = await getToken(request)
@@ -88,7 +90,8 @@ test.describe('Lead Detail', () => {
   // ── Notes ─────────────────────────────────────────────────────────────────
 
   test('shows the "Add Note" section', async ({ page }) => {
-    await expect(page.getByText('Add Note')).toBeVisible()
+    // Scope to the notes glass-card to avoid multi-element match from ancestor divs
+    await expect(page.locator('.glass-card').filter({ hasText: 'Add Note' }).first()).toBeVisible()
     await expect(page.getByPlaceholder('Write a note…')).toBeVisible()
   })
 
@@ -156,6 +159,8 @@ test.describe('Lead Edit', () => {
   })
 
   test('"Cancel" button goes back without saving', async ({ page }) => {
+    // Navigate to detail first so Cancel's navigate(-1) returns here, not a blank page
+    await page.goto(`/leads/${leadId}`)
     await page.goto(`/leads/${leadId}/edit`)
     await page.waitForSelector('input[placeholder="Full name"]', { timeout: 8_000 })
 

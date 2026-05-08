@@ -9,6 +9,8 @@ test.describe('Lead Import', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/import')
     await expect(page.locator('header h1')).toHaveText('Import Leads')
+    // Allow Framer Motion upload-step animation to complete
+    await page.waitForTimeout(500)
   })
 
   // ── Upload step ───────────────────────────────────────────────────────────
@@ -18,9 +20,10 @@ test.describe('Lead Import', () => {
   })
 
   test('shows step indicator with Upload, Preview, Done labels', async ({ page }) => {
-    await expect(page.getByText('Upload')).toBeVisible()
-    await expect(page.getByText('Preview')).toBeVisible()
-    await expect(page.getByText('Done')).toBeVisible()
+    // Use exact: true so the locator matches only the specific label span, not its ancestors
+    await expect(page.getByText('Upload', { exact: true })).toBeVisible()
+    await expect(page.getByText('Preview', { exact: true })).toBeVisible()
+    await expect(page.getByText('Done', { exact: true })).toBeVisible()
   })
 
   test('shows supported file type hint', async ({ page }) => {
@@ -28,15 +31,11 @@ test.describe('Lead Import', () => {
   })
 
   test('shows the Recognized Column Names guide', async ({ page }) => {
-    await expect(page.getByText('Recognized Column Names')).toBeVisible()
-    await expect(page.getByText('Lead Name *')).toBeVisible()
-    await expect(page.getByText('Company')).toBeVisible()
-    await expect(page.getByText('Email')).toBeVisible()
-    await expect(page.getByText('Phone')).toBeVisible()
-    await expect(page.getByText('Lead Source')).toBeVisible()
-    await expect(page.getByText('Salesperson')).toBeVisible()
-    await expect(page.getByText('Status')).toBeVisible()
-    await expect(page.getByText('Deal Value')).toBeVisible()
+    // Use element-specific locators to avoid multi-element matches from ancestor elements
+    await expect(page.locator('h3', { hasText: 'Recognized Column Names' })).toBeVisible()
+    for (const field of ['Lead Name *', 'Company', 'Email', 'Phone', 'Lead Source', 'Salesperson', 'Status', 'Deal Value']) {
+      await expect(page.locator('p.text-xs.font-semibold', { hasText: field })).toBeVisible()
+    }
   })
 
   test('file input accepts xlsx, xls, and csv extensions', async ({ page }) => {
